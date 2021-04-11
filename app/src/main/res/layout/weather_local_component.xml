@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/txt_name_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Temperature outside"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/value_local_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="10"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_name_location" />
+
+    <ImageView
+        android:id="@+id/img_local_temperature"
+        android:layout_width="22dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/ic_celsius"
+        app:layout_constraintBottom_toBottomOf="@id/value_local_temperature"
+        app:layout_constraintStart_toEndOf="@id/value_local_temperature"
+        app:layout_constraintTop_toBottomOf="@id/txt_name_location" />
+
+    <TextView
+        android:id="@+id/txt_local_presure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Давление:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/value_local_temperature" />
+
+    <TextView
+        android:id="@+id/value_local_pressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="733.12 мм. рт. ст."
+        app:layout_constraintStart_toEndOf="@id/txt_local_presure"
+        app:layout_constraintTop_toBottomOf="@id/value_local_temperature" />
+
+    <TextView
+        android:id="@+id/txt_local_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Влажность:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_local_presure" />
+
+    <TextView
+        android:id="@+id/value_local_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="24%"
+        app:layout_constraintStart_toEndOf="@id/txt_local_humidity"
+        app:layout_constraintTop_toBottomOf="@id/txt_local_presure" />
+
+    <TextView
+        android:id="@+id/txt_wind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Скорость ветра:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txt_local_humidity" />
+
+    <TextView
+        android:id="@+id/value_wind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="2 м/с"
+        app:layout_constraintStart_toEndOf="@id/txt_wind"
+        app:layout_constraintTop_toBottomOf="@id/txt_local_humidity" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
