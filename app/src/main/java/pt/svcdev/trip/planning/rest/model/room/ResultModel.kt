@@ -7,6 +7,6 @@ class ResultModel(
     @Embedded
     val result: ResultEntity,
 
-    @Relation(parentColumn = "id", entity = LocationEntity::class, entityColumn = "result_id")
+    @Relation(parentColumn = "id", /*entity = LocationEntity::class,*/ entityColumn = "result_id")
     val locations: List<LocationEntity>
 )

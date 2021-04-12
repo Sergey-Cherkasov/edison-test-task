@@ -10,9 +10,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Start date"
+        app:placeholderText="dd-mm-yyyy"
         app:layout_constraintEnd_toStartOf="@id/gl1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/date_start"
@@ -26,9 +28,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="End date"
+        app:placeholderText="dd-mm-yyyy"
         app:layout_constraintEnd_toStartOf="@id/gl3"
         app:layout_constraintStart_toEndOf="@id/gl2"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/date_end"

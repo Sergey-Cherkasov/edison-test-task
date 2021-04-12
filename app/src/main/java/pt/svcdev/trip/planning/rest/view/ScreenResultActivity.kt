@@ -2,12 +2,9 @@ package pt.svcdev.trip.planning.rest.view
 
 import android.content.Intent
 import android.content.Intent.ACTION_SEND
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.*
@@ -25,11 +22,11 @@ class ScreenResultActivity: AppCompatActivity() {
 
     private lateinit var binding: ActivityScreenResultBinding
 
-    private val coroutineScope = CoroutineScope(
-        Dispatchers.Main +
-                SupervisorJob() +
-                CoroutineExceptionHandler { _, throwable -> handleError(throwable)}
-    )
+//    private val coroutineScope = CoroutineScope(
+//        Dispatchers.Main +
+//                SupervisorJob() +
+//                CoroutineExceptionHandler { _, throwable -> handleError(throwable)}
+//    )
 
     private val viewModel: ScreenResultViewModel by lazy {
         ScreenResultViewModel(RepositoryImpl(RetrofitImpl()), LocalRepositoryImpl(RoomDatabaseImpl()))
@@ -39,20 +36,54 @@ class ScreenResultActivity: AppCompatActivity() {
 
     private var resultModelList: Map<String, CurrentWeather> = mapOf()
 
+    private lateinit var temperature: String
+    private lateinit var pressure: String
+    private lateinit var humidity: String
+    private lateinit var wind: String
+    private lateinit var dateStart: String
+    private lateinit var dateEnd: String
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityScreenResultBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val locations = intent.getStringArrayListExtra(
-            "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.locations"
-        ) as MutableList<String>
+        intent.getBundleExtra("pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
+        )?.get("pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.temperature")?.let {
+            temperature = it.toString()
+        }
+        intent.getBundleExtra("pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
+        )?.get("pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.pressure")?.let{
+            pressure = it.toString()
+        }
+        intent.getBundleExtra(
+            "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
+        )?.get("pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.humidity")?.let {
+            humidity = it.toString()
+        }
+        intent.getBundleExtra(
+            "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
+        )?.get("pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.wind")?.let {
+            wind = it.toString()
+        }
+        dateStart = intent.getBundleExtra(
+            "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
+        )!!["pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateStart"].toString()
+        dateEnd = intent.getBundleExtra(
+            "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
+        )!!["pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateEnd"].toString()
+
+
+        val locations = intent.getBundleExtra(
+            "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
+        )?.get("pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.locations")
+                as MutableList<String>
 
         initViewModel()
-        viewModel.getData(locations)
+        viewModel.getData(locations, temperature, pressure, humidity, wind)
         initView()
-
-        getResult()
 
     }
 
@@ -84,20 +115,11 @@ class ScreenResultActivity: AppCompatActivity() {
         setDataToAdapter(listResult)
     }
 
-    private fun getResult() {
-        cancelJod()
-        coroutineScope.launch {
-            withContext(Dispatchers.IO) {
-
-            }
-        }
-    }
-
     private fun initView() {
         binding.listResult.layoutManager = LinearLayoutManager(applicationContext)
         binding.listResult.adapter = adapter
         binding.btnSaveResult.setOnClickListener {
-            save2db()
+            save2db(resultModelList)
         }
     }
 
@@ -108,19 +130,8 @@ class ScreenResultActivity: AppCompatActivity() {
         }
     }
 
-    private fun save2db() {
-        cancelJod()
-        coroutineScope.launch {
-            withContext(Dispatchers.IO) {
-            }
-        }
-    }
-
-    private fun cancelJod() {
-        coroutineScope.coroutineContext.cancelChildren()
-    }
-
-    private fun handleError(throwable: Throwable) {
+    private fun save2db(listResult: Map<String, CurrentWeather>) {
+        viewModel.save2Db(this , listResult, dateStart, dateEnd)
     }
 
 }

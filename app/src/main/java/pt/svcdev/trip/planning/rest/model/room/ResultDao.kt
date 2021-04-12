@@ -16,9 +16,9 @@ interface ResultDao {
         model.locations.forEach { location -> insert(location) }
     }
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(data: ResultEntity)
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(data: LocationEntity)
 }

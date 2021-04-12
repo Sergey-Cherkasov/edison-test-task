@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 class ResultEntity(
-    @field:PrimaryKey(autoGenerate = true)
     @field:ColumnInfo(name = "id")
+    @field:PrimaryKey(autoGenerate = true)
     val id: Long,
 
     @field:ColumnInfo(name = "date_start")
@@ -16,3 +16,4 @@ class ResultEntity(
     @field:ColumnInfo(name = "date_end")
     val dateEnd: String
 )
+

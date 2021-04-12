@@ -16,6 +16,7 @@ import pt.svcdev.trip.planning.rest.model.weather.CurrentWeather
 import pt.svcdev.trip.planning.rest.model.weather.WeatherAppState
 import pt.svcdev.trip.planning.rest.repository.RepositoryImpl
 import pt.svcdev.trip.planning.rest.repository.datasource.RetrofitImpl
+import pt.svcdev.trip.planning.rest.view.ScreenResultActivity
 import pt.svcdev.trip.planning.rest.viewmodel.WeatherPlanningViewModel
 import java.util.ArrayList
 
@@ -30,6 +31,8 @@ class WeatherPlanningActivity : AppCompatActivity() {
     }
 
     private lateinit var locations: MutableList<String>
+    private lateinit var dateStart: String
+    private lateinit var dateEnd: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,9 +40,21 @@ class WeatherPlanningActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         requestPermissions()
-        locations = intent.getStringArrayListExtra(
-            "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.locations"
-        ) as MutableList<String>
+
+//        dateStart = intent.getBundleExtra(
+//            "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.bundle"
+//        )?.get("pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateStart")
+//                as String
+//
+//        dateEnd = intent.getBundleExtra(
+//            "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.bundle"
+//        )?.get("pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateEnd")
+//                as String
+
+        locations = intent.getBundleExtra(
+            "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.bundle"
+        )?.get("pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.locations")
+                as MutableList<String>
 
         if (locations.isNotEmpty()) locations.forEach { location ->
             Log.d("SAMPLE_APP", location) }
@@ -56,9 +71,37 @@ class WeatherPlanningActivity : AppCompatActivity() {
     private fun initView() {
         binding.btnFinish.setOnClickListener {
             startActivity(Intent(this, ScreenResultActivity::class.java).apply {
+                val bundle = intent.getBundleExtra(
+                    "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.bundle"
+                )
+                bundle?.putStringArrayList(
+                    "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.locations",
+                    locations as ArrayList<String>
+                )
+                if (binding.weatherFilterComponent.filterTemperature.text.toString().isNotEmpty())
+                    bundle?.putString(
+                        "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.temperature",
+                        binding.weatherFilterComponent.filterTemperature.text.toString()
+                )
+                if (binding.weatherFilterComponent.filterPressure.text.toString().isNotEmpty())
+                    bundle?.putString(
+                        "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.pressure",
+                        binding.weatherFilterComponent.filterPressure.text.toString()
+                )
+                if (binding.weatherFilterComponent.filterHumidity.text.toString().isNotEmpty())
+                    bundle?.putString(
+                        "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.humidity",
+                        binding.weatherFilterComponent.filterHumidity.text.toString()
+                )
+                if (binding.weatherFilterComponent.filterWind.text.toString().isNotEmpty())
+                    bundle?.putString(
+                        "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.wind",
+                        binding.weatherFilterComponent.filterWind.text.toString()
+                )
+
                 putExtra(
-                    "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.locations",
-                    locations as ArrayList<String>?
+                    "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle",
+                    bundle
                 )
             })
         }

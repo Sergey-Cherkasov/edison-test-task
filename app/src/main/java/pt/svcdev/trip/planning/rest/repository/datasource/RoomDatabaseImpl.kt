@@ -8,10 +8,10 @@ import pt.svcdev.trip.planning.rest.model.room.ResultModel
 
 class RoomDatabaseImpl() : LocalDataSource<ResultModel> {
     override fun save2db(context: Context, data: ResultModel) {
-        getService(context).resultDao().insert(data)
+        getInstanceDB(context).resultDao().insert(data)
     }
 
-    private fun getService(context: Context) =
+    private fun getInstanceDB(context: Context) =
         Room.databaseBuilder(context, ResultDatabase::class.java, "ResultDb").build()
 
 }
