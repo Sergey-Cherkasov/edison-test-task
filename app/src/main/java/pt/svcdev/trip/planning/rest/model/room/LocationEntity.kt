@@ -6,14 +6,14 @@ import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
 @Entity(
-    foreignKeys = [
-        ForeignKey(
-            entity = ResultEntity::class,
-            parentColumns = ["id"],
-            childColumns = ["result_id"],
-            onDelete = ForeignKey.CASCADE
-        )
-    ]
+//    foreignKeys = [
+//        ForeignKey(
+//            entity = ResultEntity::class,
+//            parentColumns = ["id"],
+//            childColumns = ["result_id"],
+//            onUpdate = ForeignKey.NO_ACTION
+//        )
+//    ]
 )
 class LocationEntity(
     @field:PrimaryKey

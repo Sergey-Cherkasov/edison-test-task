@@ -98,7 +98,10 @@ class WeatherPlanningActivity : AppCompatActivity() {
                         "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.wind",
                         binding.weatherFilterComponent.filterWind.text.toString()
                 )
-
+                bundle?.putString(
+                    "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.localLocation",
+                    binding.weatherLocalComponent.txtNameLocation.text.toString()
+                )
                 putExtra(
                     "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle",
                     bundle

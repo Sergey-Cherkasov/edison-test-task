@@ -13,7 +13,9 @@ interface ResultDao {
     @Transaction
     fun insert(model: ResultModel) {
         insert(model.result)
-        model.locations.forEach { location -> insert(location) }
+        model.locations.forEach {
+                location -> insert(location)
+        }
     }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

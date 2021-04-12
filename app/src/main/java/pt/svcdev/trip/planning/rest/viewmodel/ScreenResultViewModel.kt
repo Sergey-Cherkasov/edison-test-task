@@ -57,15 +57,15 @@ class ScreenResultViewModel(
         listResult.entries.forEach { value ->
             locationList.add(
                 LocationEntity(
-                    id = 0,
+                    0,
                     location = value.key,
                     temperature = value.value.basicParameters.temp.toString(),
-                    resultId = 0
+                    0
                 )
             )
         }
         val resultModel = ResultModel(
-            ResultEntity(id = 0, dateStart = dateStart, dateEnd = dateEnd),
+            ResultEntity(0, dateStart = dateStart, dateEnd = dateEnd),
             locationList
         )
 

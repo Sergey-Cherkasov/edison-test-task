@@ -1,7 +1,6 @@
 package pt.svcdev.trip.planning.rest.view
 
 import android.content.Intent
-import android.content.Intent.ACTION_SEND
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -42,7 +41,7 @@ class ScreenResultActivity: AppCompatActivity() {
     private lateinit var wind: String
     private lateinit var dateStart: String
     private lateinit var dateEnd: String
-
+    private lateinit var localLocation: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +73,9 @@ class ScreenResultActivity: AppCompatActivity() {
         dateEnd = intent.getBundleExtra(
             "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
         )!!["pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateEnd"].toString()
-
+        localLocation = intent.getBundleExtra(
+            "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
+        )!!["pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.localLocation"].toString()
 
         val locations = intent.getBundleExtra(
             "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
@@ -95,15 +96,28 @@ class ScreenResultActivity: AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId) {
             R.id.share -> {
-                runShare()
+                runShare(resultModelList)
                 return true
             }
         }
         return false
     }
 
-    private fun runShare() {
-        startActivity(Intent.createChooser(Intent(ACTION_SEND), "Choose application"))
+    private fun runShare(listResult: Map<String, CurrentWeather>?) {
+
+        val listLocationForRest = mutableListOf<String>()
+
+        listResult?.forEach { value ->
+            listLocationForRest.add(value.key)
+        }
+
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, listLocationForRest.toString())
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(intent, "Choose application")
+        startActivity(shareIntent)
     }
 
     private fun initViewModel() {
@@ -126,7 +140,7 @@ class ScreenResultActivity: AppCompatActivity() {
     private fun setDataToAdapter(listResult: Map<String, CurrentWeather>?) {
         if (listResult != null) {
             resultModelList = listResult
-            adapter.setData(resultModelList)
+            adapter.setData(localLocation, resultModelList)
         }
     }
 
