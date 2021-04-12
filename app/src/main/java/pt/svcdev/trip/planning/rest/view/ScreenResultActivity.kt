@@ -35,12 +35,12 @@ class ScreenResultActivity: AppCompatActivity() {
 
     private var resultModelList: Map<String, CurrentWeather> = mapOf()
 
-    private lateinit var temperature: String
-    private lateinit var pressure: String
-    private lateinit var humidity: String
-    private lateinit var wind: String
-    private lateinit var dateStart: String
-    private lateinit var dateEnd: String
+    private var temperature: String = ""
+    private var pressure: String = ""
+    private var humidity: String = ""
+    private var wind: String = ""
+    private var dateStart: String = ""
+    private var dateEnd: String = ""
     private lateinit var localLocation: String
 
 
@@ -67,9 +67,9 @@ class ScreenResultActivity: AppCompatActivity() {
         )?.get("pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.wind")?.let {
             wind = it.toString()
         }
-        dateStart = intent.getBundleExtra(
+        intent.getBundleExtra(
             "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
-        )!!["pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateStart"].toString()
+        )?.get("pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateStart").toString()
         dateEnd = intent.getBundleExtra(
             "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
         )!!["pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateEnd"].toString()

@@ -79,14 +79,19 @@ class PlacesRestPlanningActivity : AppCompatActivity() {
                     "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.locations",
                     locationList as ArrayList<String>
                 )
-                bundle.putString(
-                    "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateStart",
-                    binding.datePlanning.dateStart.text.toString()
+
+                binding.datePlanning.dateStart.text?.isNotEmpty().let {
+                    bundle.putString(
+                        "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateStart",
+                        it.toString()
+                        )
+                }
+                binding.datePlanning.dateEnd.text?.isNotEmpty().let {
+                    bundle.putString(
+                        "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateEnd",
+                        it.toString()
                     )
-                bundle.putString(
-                    "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateEnd",
-                    binding.datePlanning.dateEnd.text.toString()
-                    )
+                }
                 putExtra(
                     "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.bundle",
                     bundle

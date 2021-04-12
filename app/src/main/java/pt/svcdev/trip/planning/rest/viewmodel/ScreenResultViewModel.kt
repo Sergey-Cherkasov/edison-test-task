@@ -42,6 +42,7 @@ class ScreenResultViewModel(
         cancelJob()
         coroutineScope.launch {
             withContext(Dispatchers.IO) {
+                if(dateStart.isNotEmpty() && dateEnd.isNotEmpty())
                 localRepository.save2db(context, convertToResultModel(listResult, dateStart, dateEnd))
             }
         }
@@ -87,6 +88,8 @@ class ScreenResultViewModel(
         coroutineScope.launch {
             withContext(Dispatchers.IO) {
                 val listLocationWeather: MutableMap<String, CurrentWeather> = mutableMapOf()
+                if (temperature.isEmpty() || pressure.isEmpty() || humidity.isEmpty() ||
+                    wind.isEmpty()) return@withContext
                 locations.forEach { location ->
                     val result = repository.getData(location)
                     // Filter result
