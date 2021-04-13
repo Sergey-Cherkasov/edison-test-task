@@ -1,0 +1,75 @@
+{
+    "date_start":"13-04-2021",
+    "date_end":"16-04-2021",
+    "Hong Kong":{
+        "main":{
+            "humidity":80,
+            "pressure":1016,
+            "temp":24.93
+        },
+        "name":"Hong Kong",
+        "weather":[
+            {
+                "description":"scattered clouds"
+            }
+        ],
+        "wind":{
+            "deg":273.0,
+            "speed":0.45
+        }
+    },
+    "Mountain View":{
+        "main":{
+            "humidity":52,
+            "pressure":1009,
+            "temp":18.0
+        },
+        "name":"Mountain View",
+        "weather":[
+            {
+                "description":"broken clouds"
+            }
+        ],
+        "wind":{
+            "deg":330.0,
+            "speed":6.17
+        }
+    }
+}
+//---------------
+{
+    "Hong Kong":{
+        "main":{
+            "humidity":80,
+            "pressure":1016,
+            "temp":24.93
+        },
+        "name":"Hong Kong",
+        "weather":[
+            {
+                "description":"scattered clouds"
+            }
+        ],
+        "wind":{
+            "deg":273.0,
+            "speed":0.45
+        }
+    },
+    "Mountain View":{
+        "main":{
+            "humidity":52,
+            "pressure":1009,
+            "temp":18.0
+        },
+        "name":"Mountain View",
+        "weather":[
+            {
+                "description":"broken clouds"
+            }
+        ],
+        "wind":{
+            "deg":330.0,
+            "speed":6.17
+        }
+    }
+}

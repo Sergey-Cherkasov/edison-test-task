@@ -6,13 +6,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
 import kotlinx.coroutines.*
-import pt.svcdev.trip.planning.rest.model.room.LocationEntity
-import pt.svcdev.trip.planning.rest.model.room.ResultEntity
-import pt.svcdev.trip.planning.rest.model.room.ResultModel
+import pt.svcdev.trip.planning.rest.model.room.*
 import pt.svcdev.trip.planning.rest.model.weather.CurrentWeather
 import pt.svcdev.trip.planning.rest.repository.LocalRepositoryImpl
 import pt.svcdev.trip.planning.rest.repository.Repository
-import pt.svcdev.trip.planning.rest.utils.map2json
 
 class ScreenResultViewModel(
     private val repository: Repository<CurrentWeather>,
@@ -27,11 +24,8 @@ class ScreenResultViewModel(
     private val mutableLiveDataWeather: MutableLiveData<Map<String, CurrentWeather>> =
         MutableLiveData()
     private val liveDataWeatherForViewToObserve = mutableLiveDataWeather
-//    private val mutableLiveDataResult: MutableLiveData<ResultModel> = MutableLiveData()
-//    private val liveDataResultForViewToObserve = mutableLiveDataResult
 
     fun subscribeLiveDataWeather() = liveDataWeatherForViewToObserve
-//    fun subscribeLiveDataResult() = liveDataResultForViewToObserve
 
     fun save2Db(
         context: Context,
@@ -45,39 +39,44 @@ class ScreenResultViewModel(
                 if(dateStart.isNotEmpty() && dateEnd.isNotEmpty()) {
                     localRepository.save2db(
                         context,
-                        convertToResultModel(listResult, dateStart, dateEnd)
+                        convertToModel(listResult, dateStart, dateEnd)
                     )
                 }
             }
         }
 
     }
-
-    private fun convertToResultModel(
+    private fun convertToModel(
         listResult: Map<String, CurrentWeather>,
         dateStart: String,
         dateEnd: String
-    ): ResultModel {
-        val locationList: MutableList<LocationEntity> = mutableListOf()
+    ): DatePlaningWithLocationWeather {
+        val locationWeatherList: MutableList<LocationWeatherEntity> = mutableListOf()
+        val datePlanningEntity = DatePlanningEntity(
+            0,
+            dateStart = dateStart,
+            dateEnd = dateEnd
+        )
         listResult.entries.forEach { value ->
-            locationList.add(
-                LocationEntity(
+            locationWeatherList.add(
+                LocationWeatherEntity(
                     0,
-                    location = value.key,
-                    temperature = value.value.basicParameters.temp.toString(),
-                    0
+                    locationName = value.key,
+                    temp = value.value.basicParameters.temp,
+                    pressure = value.value.basicParameters.pressure,
+                    humidity = value.value.basicParameters.humidity,
+                    wind = value.value.wind.speed,
+                    datePlanningEntity.dateId
                 )
             )
         }
-        val resultModel = ResultModel(
-            ResultEntity(0, dateStart = dateStart, dateEnd = dateEnd),
-            locationList
+        val resultModel = DatePlaningWithLocationWeather(
+            datePlanningEntity,
+            locationWeatherList
         )
 
         Log.d("TEST_APP", Gson().toJson(resultModel))
 
-//        val result = map2json(listResult, dateStart, dateEnd)
-//        Log.d("TEST_APP", result)
         return resultModel
     }
 
@@ -104,14 +103,24 @@ class ScreenResultViewModel(
                         )
                             listLocationWeather[location] = result
                     }
-                    mutableLiveDataWeather.postValue(
-                        listLocationWeather.toList().sortedByDescending { (_, value) ->
-                            value.basicParameters.temp
-                        }.toMap()
-                    )
+                    mutableLiveDataPost(listLocationWeather)
+                } else {
+                    locations.forEach { location ->
+                        val result = repository.getData(location)
+                        listLocationWeather[location] = result
+                    }
+                    mutableLiveDataPost(listLocationWeather)
                 }
             }
         }
+    }
+
+    private fun mutableLiveDataPost(listLocationWeather: MutableMap<String, CurrentWeather>) {
+        mutableLiveDataWeather.postValue(
+            listLocationWeather.toList().sortedByDescending { (_, value) ->
+                value.basicParameters.temp
+            }.toMap()
+        )
     }
 
     private fun cancelJob() {
