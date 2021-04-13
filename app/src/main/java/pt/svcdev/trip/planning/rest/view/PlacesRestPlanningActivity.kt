@@ -80,18 +80,17 @@ class PlacesRestPlanningActivity : AppCompatActivity() {
                     locationList as ArrayList<String>
                 )
 
-                binding.datePlanning.dateStart.text?.isNotEmpty().let {
+                if (binding.datePlanning.dateStart.text.toString().isNotEmpty())
                     bundle.putString(
                         "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateStart",
-                        it.toString()
-                        )
-                }
-                binding.datePlanning.dateEnd.text?.isNotEmpty().let {
+                        binding.datePlanning.dateStart.text.toString()
+                    )
+                if (binding.datePlanning.dateEnd.text.toString().isNotEmpty())
                     bundle.putString(
                         "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateEnd",
-                        it.toString()
+                        binding.datePlanning.dateEnd.text.toString()
                     )
-                }
+
                 putExtra(
                     "pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.bundle",
                     bundle

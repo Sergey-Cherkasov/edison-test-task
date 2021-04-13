@@ -7,7 +7,7 @@ import pt.svcdev.trip.planning.rest.model.room.ResultDatabase
 import pt.svcdev.trip.planning.rest.model.room.ResultModel
 
 class RoomDatabaseImpl() : LocalDataSource<ResultModel> {
-    override fun save2db(context: Context, data: ResultModel) {
+    override suspend fun save2db(context: Context, data: ResultModel) {
         getInstanceDB(context).resultDao().insert(data)
     }
 

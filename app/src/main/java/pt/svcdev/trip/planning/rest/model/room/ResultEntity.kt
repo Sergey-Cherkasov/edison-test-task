@@ -5,15 +5,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-class ResultEntity(
-    @field:ColumnInfo(name = "id")
-    @field:PrimaryKey(autoGenerate = true)
-    val id: Long,
+data class ResultEntity(
 
-    @field:ColumnInfo(name = "date_start")
-    val dateStart: String,
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "result_id") val id: Long,
 
-    @field:ColumnInfo(name = "date_end")
-    val dateEnd: String
+    @ColumnInfo(name = "date_start") val dateStart: String,
+
+    @ColumnInfo(name = "date_end") val dateEnd: String
 )
 

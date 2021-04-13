@@ -11,7 +11,7 @@ interface ResultDao {
     // onConflict = OnConflictStrategy.IGNORE означает, что дубликаты не будут
     // сохраняться
     @Transaction
-    fun insert(model: ResultModel) {
+    suspend fun insert(model: ResultModel) {
         insert(model.result)
         model.locations.forEach {
                 location -> insert(location)

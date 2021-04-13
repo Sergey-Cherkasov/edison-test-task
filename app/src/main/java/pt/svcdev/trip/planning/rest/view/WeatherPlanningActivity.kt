@@ -65,7 +65,7 @@ class WeatherPlanningActivity : AppCompatActivity() {
 
         initViewModel()
 
-        viewModel.getData("-55", "-86")
+//        viewModel.getData("-55", "-86")
     }
 
     private fun initView() {

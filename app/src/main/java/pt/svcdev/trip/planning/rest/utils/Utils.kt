@@ -20,5 +20,5 @@ fun json2LocationEntity(gson: String): LocationEntity =
     "Mountain View":{
         "main":{"humidity":71,"pressure":1012,"temp":10.17},"name":"Mountain View","weather":[{"description":"few clouds"}],"wind":{"deg":340.0,"speed":4.12}
     }
-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
+
 }*/

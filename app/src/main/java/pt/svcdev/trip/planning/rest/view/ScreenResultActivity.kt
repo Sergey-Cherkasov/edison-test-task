@@ -69,10 +69,14 @@ class ScreenResultActivity: AppCompatActivity() {
         }
         intent.getBundleExtra(
             "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
-        )?.get("pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateStart").toString()
-        dateEnd = intent.getBundleExtra(
+        )?.get("pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateStart")?.let {
+            dateStart = it.toString()
+        }
+        intent.getBundleExtra(
             "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
-        )!!["pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateEnd"].toString()
+        )?.get("pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.dateEnd")?.let {
+            dateEnd = it.toString()
+        }
         localLocation = intent.getBundleExtra(
             "pt.svcdev.trip.planning.rest.view.WeatherPlanningActivity.bundle"
         )!!["pt.svcdev.trip.planning.rest.view.PlacesRestPlanningActivity.localLocation"].toString()
@@ -126,7 +130,8 @@ class ScreenResultActivity: AppCompatActivity() {
     }
 
     private fun renderData(listResult: Map<String, CurrentWeather>?) {
-        setDataToAdapter(listResult)
+        listResult?.let { resultModelList = it }
+        setDataToAdapter(resultModelList)
     }
 
     private fun initView() {
@@ -138,10 +143,7 @@ class ScreenResultActivity: AppCompatActivity() {
     }
 
     private fun setDataToAdapter(listResult: Map<String, CurrentWeather>?) {
-        if (listResult != null) {
-            resultModelList = listResult
-            adapter.setData(localLocation, resultModelList)
-        }
+        adapter.setData(localLocation, resultModelList)
     }
 
     private fun save2db(listResult: Map<String, CurrentWeather>) {

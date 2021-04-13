@@ -5,6 +5,6 @@ import pt.svcdev.trip.planning.rest.model.room.ResultModel
 
 interface LocalDataSource<T> {
 
-    fun save2db(context: Context, data: T)
+    suspend fun save2db(context: Context, data: T)
 
 }

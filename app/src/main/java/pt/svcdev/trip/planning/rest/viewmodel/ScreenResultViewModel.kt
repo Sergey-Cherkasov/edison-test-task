@@ -42,8 +42,12 @@ class ScreenResultViewModel(
         cancelJob()
         coroutineScope.launch {
             withContext(Dispatchers.IO) {
-                if(dateStart.isNotEmpty() && dateEnd.isNotEmpty())
-                localRepository.save2db(context, convertToResultModel(listResult, dateStart, dateEnd))
+                if(dateStart.isNotEmpty() && dateEnd.isNotEmpty()) {
+                    localRepository.save2db(
+                        context,
+                        convertToResultModel(listResult, dateStart, dateEnd)
+                    )
+                }
             }
         }
 
@@ -88,23 +92,24 @@ class ScreenResultViewModel(
         coroutineScope.launch {
             withContext(Dispatchers.IO) {
                 val listLocationWeather: MutableMap<String, CurrentWeather> = mutableMapOf()
-                if (temperature.isEmpty() || pressure.isEmpty() || humidity.isEmpty() ||
-                    wind.isEmpty()) return@withContext
-                locations.forEach { location ->
-                    val result = repository.getData(location)
-                    // Filter result
-                    if (result.basicParameters.temp <= temperature.toDouble() &&
-                        result.basicParameters.pressure <= pressure.toInt() &&
-                        result.basicParameters.humidity <= humidity.toInt() &&
-                        result.wind.speed <= wind.toDouble()
+                if (temperature.isNotEmpty() && pressure.isNotEmpty() && humidity.isNotEmpty() &&
+                    wind.isNotEmpty()) {
+                    locations.forEach { location ->
+                        val result = repository.getData(location)
+                        // Filter result
+                        if (result.basicParameters.temp <= temperature.toDouble() &&
+                            result.basicParameters.pressure <= pressure.toInt() &&
+                            result.basicParameters.humidity <= humidity.toInt() &&
+                            result.wind.speed <= wind.toDouble()
+                        )
+                            listLocationWeather[location] = result
+                    }
+                    mutableLiveDataWeather.postValue(
+                        listLocationWeather.toList().sortedByDescending { (_, value) ->
+                            value.basicParameters.temp
+                        }.toMap()
                     )
-                        listLocationWeather[location] = result
                 }
-                mutableLiveDataWeather.postValue(
-                    listLocationWeather.toList().sortedByDescending { (_, value) ->
-                        value.basicParameters.temp
-                    }.toMap()
-                )
             }
         }
     }
