@@ -14,6 +14,7 @@ import pt.svcdev.trip.planning.rest.repository.LocalRepositoryImpl
 import pt.svcdev.trip.planning.rest.repository.RepositoryImpl
 import pt.svcdev.trip.planning.rest.repository.datasource.RetrofitImpl
 import pt.svcdev.trip.planning.rest.repository.datasource.RoomDatabaseImpl
+import pt.svcdev.trip.planning.rest.utils.map2json
 import pt.svcdev.trip.planning.rest.view.adapter.ScreenResultRVAdapter
 import pt.svcdev.trip.planning.rest.viewmodel.ScreenResultViewModel
 
@@ -107,17 +108,12 @@ class ScreenResultActivity: AppCompatActivity() {
         return false
     }
 
+    // Send Json file to any app
     private fun runShare(listResult: Map<String, CurrentWeather>?) {
-
-        val listLocationForRest = mutableListOf<String>()
-
-        listResult?.forEach { value ->
-            listLocationForRest.add(value.key)
-        }
-
+        val listLocationForRest = map2json(listResult!!, dateStart, dateEnd)
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
-            putExtra(Intent.EXTRA_TEXT, listLocationForRest.toString())
+            putExtra(Intent.EXTRA_TEXT, listLocationForRest)
             type = "text/plain"
         }
         val shareIntent = Intent.createChooser(intent, "Choose application")
